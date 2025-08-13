@@ -8,6 +8,14 @@ The following information about the beam properties can currently be simulated:
 | Pulse Duration (FWHM) | Central Wavelength | Beam Waist |
 | Chirp GDD | Bandwidth |  |
 
+The following are the currently supported optical elements
+| Optical Element | Supported yet | Not supported yet |
+| -------- | -------- | -------- |
+| Lens | ✅ |  |
+| Mirrors | ✅ | |
+| Gratings| |✅| 
+|Prisms| | ✅|
+
 ## How does it work?
 To get started, simply try the following code:
 ```python
