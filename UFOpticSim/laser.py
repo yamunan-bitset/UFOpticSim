@@ -1,6 +1,5 @@
-from ast import Tuple
+import pygame
 
-from traitlets import Int
 from .pulseprofile import PulseProfile
 
 class Laser:
@@ -14,3 +13,8 @@ class Laser:
 
     def pos(self) -> list[float]:
         return [self.x, self.y]
+    
+    def draw(self, screen: pygame.surface.Surface, font: pygame.font.Font):
+        pygame.draw.circle(screen, (0, 0, 0), (screen.get_width()/2 + 50*self.x, screen.get_height()/2 + 50*self.y), 10)
+        text_surface = font.render("LASER", True, (0, 0, 0))
+        screen.blit(text_surface, (screen.get_width()/2 + 50*self.x - 30, screen.get_height()/2 + 50*self.y - 30))

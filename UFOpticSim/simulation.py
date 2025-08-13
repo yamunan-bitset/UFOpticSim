@@ -8,6 +8,8 @@ from .results import Results
 from .material import Material
 from .calc import *
 
+import threading
+
 class Simulation:
     def __init__(self, media: str, interval_cm: float = 1):
         self.media = media
@@ -42,7 +44,12 @@ class Simulation:
         self.laser_pos[0] += self.pulse.dirx * self.interval_cm
         self.laser_pos[1] += self.pulse.diry * self.interval_cm
 
-    def run(self) -> Results:
+    def output(self):
+        self.print()
+        results = self.get_results()
+        results.print()
+
+    def get_results(self) -> Results:
         result = Results(self)
 
         gdd = 0
@@ -78,7 +85,7 @@ class Simulation:
 
                 if type(element) == Mirror:
                     phi = 2 * c_pi - math.atan2(self.pulse.diry, self.pulse.dirx)
-                    theta = c_to_rad(element.angle)
+                    theta = c_to_rad(180 - element.angle)
                     phi_prime = 2 * theta + 3 * phi - c_pi
                     self.pulse.dirx = round(math.cos(phi_prime))
                     self.pulse.diry = round(math.sin(phi_prime))
@@ -98,6 +105,39 @@ class Simulation:
 
         return result
 
+
+    def start_visualisation(self):
+        import pygame
+
+        pygame.init()
+        pygame.display.set_caption("Optical Simulation Visualising Tool")
+        screen = pygame.display.set_mode((800, 600))
+        font = pygame.font.SysFont("Times New Roman", 10)
+
+        running = True
+        while running:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    running = False
+
+            screen.fill((255, 255, 255))
+
+            self.pulse.draw(screen, font)
+            self.screen.draw(screen, font)
+            
+            for element in self.elements:
+                element.draw(screen, font)
+
+            pygame.display.update()
+
+        pygame.quit()
+
+    def run(self, output: bool = True, visualisation: bool = True):
+        if output and visualisation:
+            t1 = threading.Thread(target=self.start_visualisation, args=())
+            t2 = threading.Thread(target=self.output, args=())
+            t1.start()
+            t2.start()
 
     def print(self):
         print("\nInput Pulse")
