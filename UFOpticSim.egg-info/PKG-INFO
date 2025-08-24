@@ -1,3 +1,13 @@
+Metadata-Version: 2.1
+Name: UFOpticSim
+Version: 0.1
+Summary: Ultra Fast Optics Simulations with Python3
+Author: Anirudh Yamunan Govindarajan
+Author-email: yamunan.bitset@gmail.com
+License: MIT
+Project-URL: Source Repository, https://github.com/yamunan-bitset/UFOpticSim/
+Description-Content-Type: text/markdown
+
 # UFOpticSim 
 ## What is it?
 UFOpticSim is a Python3 module that can allow scientists to simulate how the properties of ultra fast laser pulses change under interaction with different optical elements. The main selling point of UFOpticSim is its simplicity, accuracy and its lightweightness.
